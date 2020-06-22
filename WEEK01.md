@@ -95,3 +95,30 @@ IIFE(이름이 없는 익명함수)
     console.log("쇼 미 더 머니");
 }());
 ```
+
+<br><br>
+---
+
+Q. 외부에서 즉시실행함수 내 변수나 함수 사용 방법<br>
+```javascript
+// IIFE 패턴으로 감싸진 영역(Scope) 
+(function($){ 
+  'use strict'; 
+  // jQuery 객체의 컨텍스트(context) 객체가 없을 경우 
+  // jQuery.Context 객체 생성 
+  if (!$.Context) { $.Context = {} } 
+  // IIFE 내부에서 사용되는 함수 toggle_class 
+  function toggle_class(el, className){ 
+    var $el = $(el); 
+    $el.on("click", function(e){ 
+      e.preventDefault(); 
+      $(this).toggleClass(className); 
+    }); 
+  } 
+  // IIFE 외부에서 toggle_class 함수를 사용해야 할 경우  
+  // $.Context.toggle_class로 내보냄 
+  $.Context.toggle_class = toggle_class 
+})(jQuery); 
+// 외부에서 jQuery.Context 객체를 통해 toggle_class 함수에 접근 가능 
+jQuery.Context.toggle_class(document.body, 'share-contenxt-props');
+```
