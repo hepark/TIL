@@ -5,7 +5,7 @@
 
 #### 2일차 질문
 ~~Q. let & const 학습내용 중 아래 함수의 동작원리가 이해가 안 됩니다.~~<br>
-Q. 아래 부분이 콜백함수라는 건 찾았는데요.(https://humahumahuma.tistory.com/m/74?category=803785)<br>
+- Q. 아래 부분이 콜백함수라는 건 찾았는데요.(https://humahumahuma.tistory.com/m/74?category=803785)<br>
 혹시 강의 중에 콜백함수에 관해 설명해놓으신 부분이 있을까요?? 
 알 것 같다가도 잘 모르겠어요.
 
@@ -147,6 +147,8 @@ Q. 외부에서 즉시실행함수 내 변수나 함수 사용 방법<br>
 jQuery.Context.toggle_class(document.body, 'share-contenxt-props');
 ```
 
+</details>
+
 <details open>
 <summary>2일차 학습</summary>
 <div markdown="1">
@@ -189,3 +191,4 @@ ES6+ 블록을 사용하는 경우
 
 console.log(food); // Reference Error
 ```
+</details>
