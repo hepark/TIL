@@ -1,8 +1,32 @@
 # TIL
 오늘 내가 배운 것들(Today I Learned)   
 
+---
 
-## 자바스크립트
+#### 2일차 질문
+~~Q. let & const 학습내용 중 아래 함수의 동작원리가 이해가 안 됩니다.~~<br>
+Q. 아래 부분이 콜백함수라는 건 찾았는데요.(https://humahumahuma.tistory.com/m/74?category=803785)<br>
+혹시 강의 중에 콜백함수에 관해 설명해놓으신 부분이 있을까요?? 
+알 것 같다가도 잘 모르겠어요.
+
+```javascript
+fn_list.forEach(function(f){
+    f();
+});
+
+
+// 아래 소스처럼 변경해봤는데 f가 왜 console.log(i)가 되는 거에요??
+
+fn_list.forEach(function(f){
+    console.log(f);
+});
+
+// console 창
+ƒ (){
+        console.log(i);
+    }
+```
+
 <details open>
 <summary>1일차 학습</summary>
 <div markdown="1">
@@ -121,4 +145,47 @@ Q. 외부에서 즉시실행함수 내 변수나 함수 사용 방법<br>
 })(jQuery); 
 // 외부에서 jQuery.Context 객체를 통해 toggle_class 함수에 접근 가능 
 jQuery.Context.toggle_class(document.body, 'share-contenxt-props');
+```
+
+<details open>
+<summary>2일차 학습</summary>
+<div markdown="1">
+
+#### [ES6] 블록영역 ⎼ let & const
+- **var**
+  - 함수영역(function scope)
+  - 초기값 할당이 없으면: undefined
+  - 가급적 사용하지 않는 것이 좋지만 사용해야 한다면 top level에서만 사용
+  - 전역에서 선언시, window 객체의 속성으로 접근 가능
+- **let / const**  
+  - 블록영역(block scope)
+  - 초기 값 할당이 없으면 ReferenceError
+  - 데이터 값 변경이 필요한 경우라면 let 사용 권장.
+  - 전역에서 선언해도 window 객체의 속성으로 접근 가능하지 않음
+- **const** : 
+  - 초기 값 할당이 필수!
+  - 값 유형 변경은 허용되지 않지만, 배열/객체 유형의 경우 새로운 아이템 추가, 변경 가능
+  - 데이터 값 유형이 배열/객체일 경우 사용 권장
+- **함수 실행 시점&스코프 체이닝**
+
+#### [ES6] IIFE → Block
+IFE 패턴은 일반적으로 변수들을 별도의 영역 안에서만 사용하기 위해 사용되었습니다.<br>
+ES6+에서는 Block을 기반으로 영역을 만들 수 있으므로, 더 이상 함수 기반 영역을 사용하지 않아도 됩니다.
+
+```javascript
+IIFE 패턴을 사용하는 경우
+(function () {
+  var food = '허니버터칩';
+}());
+
+console.log(food); // Reference Error
+
+
+
+ES6+ 블록을 사용하는 경우
+{
+  let food = '허니버터칩';
+};
+
+console.log(food); // Reference Error
 ```
