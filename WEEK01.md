@@ -3,8 +3,8 @@
 
 ---
 
-#### 2일차 질문
-~~Q. let & const 학습내용 중 아래 함수의 동작원리가 이해가 안 됩니다.~~<br>
+#### 1주차 질문
+- ~~Q. let & const 학습내용 중 아래 함수의 동작원리가 이해가 안 됩니다.~~<br>
 - Q. 아래 부분이 콜백함수라는 건 찾았는데요.(https://humahumahuma.tistory.com/m/74?category=803785)<br>
 혹시 강의 중에 콜백함수에 관해 설명해놓으신 부분이 있을까요?? 
 알 것 같다가도 잘 모르겠어요.
@@ -13,18 +13,6 @@
 fn_list.forEach(function(f){
     f();
 });
-
-
-// 아래 소스처럼 변경해봤는데 f가 왜 console.log(i)가 되는 거에요??
-
-fn_list.forEach(function(f){
-    console.log(f);
-});
-
-// console 창
-ƒ (){
-        console.log(i);
-    }
 ```
 
 <details open>
