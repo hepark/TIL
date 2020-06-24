@@ -248,18 +248,18 @@ console.log(food); // Reference Error
   sayMyName();
 
   0. 전역 실행컨텍스트 생성[Global]
-    1. 함수 setName 선언 [Global > setName]
-    2. 변수 sayMyName 선언
-    3. setName(홍길동) 호출 -> setName 실행 컨텍스트 생성
-        1. 지역변수 name 선언 및 '홍길동' 할당
-        2. 익명함수 선언[Global > setName > unnamed]
-        3. 익명함수 반환
-    4. setName 실행 컨텍스트 종료
-    5. 변수 sayMyName에 반환된 함수를 할당
-    6. sayMyName 호출 -> sayMyName 실행 컨텍스트 생성
-        1. unnamed scope에서 name 탐색 -> setName에서 name 탐색 -> '홍길동' 반환
-    7. sayMyName 실행 컨텍스트 종료
-    8. 전역 실행컨텍스트 종료
+      1. 함수 setName 선언 [Global > setName]
+      2. 변수 sayMyName 선언
+      3. setName(홍길동) 호출 -> setName 실행 컨텍스트 생성
+          1. 지역변수 name 선언 및 '홍길동' 할당
+          2. 익명함수 선언[Global > setName > unnamed]
+          3. 익명함수 반환
+      4. setName 실행 컨텍스트 종료
+      5. 변수 sayMyName에 반환된 함수를 할당
+      6. sayMyName 호출 -> sayMyName 실행 컨텍스트 생성
+          1. unnamed scope에서 name 탐색 -> setName에서 name 탐색 -> '홍길동' 반환
+      7. sayMyName 실행 컨텍스트 종료
+  1. 전역 실행컨텍스트 종료
   ```
   
 - **실용적인 클로저 활용**
