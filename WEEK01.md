@@ -180,3 +180,108 @@ ES6+ 블록을 사용하는 경우
 console.log(food); // Reference Error
 ```
 </details>
+
+<details open>
+<summary>3일차 학습</summary>
+<div markdown="1">
+
+#### JavaScript 클로저(Closure)
+- **클로저란**
+  - 함수와 함수가 선언된 어휘적 환경의 조합
+  - Lexical Environment : 선언 당시의 환경에 대한 정보를 담는 객체(구성 환경)
+  - 최초 선언시의 정보를 기억함
+
+- **실행 컨텍스트(Execution Contenxt)**
+  - 실행 컨텍스트는 해당 함수 내의 변수와 해당 부모 환경에 대한 참조를 의미하는 환경으로 구성됩니다. 
+  - 어느 시점이든 하나의 실행 컨텍스트만 실행 될 수 있습니다.
+    이것이 JavaScript가 "단일 스레드"인 이유입니다.
+
+  - 즉, 한 번에 하나의 명령만 처리 할 수 있습니다. 일반적으로 
+  브라우저는 "스택(Stack)"을 사용하여 이 실행 컨텍스트를 유지 관리합니다. 
+  스택은 LIFO(Last In First Out) 데이터 구조입니다. 
+  
+  - 스택에 푸시(push) 한 마지막 것이 가장 먼저 꺼내집니다. 스택의 
+  맨 위에 요소만 삽입하거나 삭제할 수 있기 때문입니다. 현재 또는 
+  "실행 중인" 실행 컨텍스트는 항상 스택의 맨 위에 있는 항목입니다. 
+
+  - 실행 중인 실행 컨텍스트의 코드가 완전히 평가되면 최상위 항목이 
+  팝(pop) 된 다음 실행 항목이 실행 컨텍스트를 실행하는 것으로 
+  간주됩니다.
+  
+  - 또한 실행 컨텍스트가 실행되고 있다고 해서 다른 실행 컨텍스트를 
+    실행하기 전에 실행이 완료되어야한다는 것을 의미하지는 않습니다. 
+    실행 중인 실행 컨텍스트가 일시 중단되고 다른 실행 컨텍스트가 
+    실행 중인 실행 컨텍스트가되는 경우가 있습니다. 
+
+  - 일시중단 된 실행 컨텍스트는 나중에 중단 된 부분을 선택합니다. 
+    한 실행 컨텍스트가 이와 같이 다른 컨텍스트로 대체 될 때마다 
+    새 실행 컨텍스트가 만들어져 스택에 푸시되고 현재 실행 컨텍스트가 됩니다.
+  
+  ```javascript
+  // 글로벌 실행 컨텍스트 (Global Execution Context)
+  var x = 9;
+
+  // 함수 실행 컨텍스트 (outerFn: Execution Context)
+  function outerFn() {
+    var y = 12;   // 환경 레코딩
+    
+    // 함수 실행 컨텍스트 (innerFn: Execution Context)
+    function innerFn() {
+      var z = 6;         // 환경 레코딩
+      return x + y + z;  // 환경 레코딩, y는 외부에 대한 참조
+    }
+
+    return innerFn;
+  }
+  ```
+
+  다른 곳에도 비슷한 예제가 있어서 참조해봤습니다.
+
+  ```javascript
+  function setName(name) {
+    return function() {
+      return name;
+    }
+  }
+
+  var sayMyName = setName('홍길동');
+  sayMyName();
+
+  0. 전역 실행컨텍스트 생성[Global]
+    1. 함수 setName 선언 [Global > setName]
+    2. 변수 sayMyName 선언
+    3. setName(홍길동) 호출 -> setName 실행 컨텍스트 생성
+        1. 지역변수 name 선언 및 '홍길동' 할당
+        2. 익명함수 선언[Global > setName > unnamed]
+        3. 익명함수 반환
+    4. setName 실행 컨텍스트 종료
+    5. 변수 sayMyName에 반환된 함수를 할당
+    6. sayMyName 호출 -> sayMyName 실행 컨텍스트 생성
+        1. unnamed scope에서 name 탐색 -> setName에서 name 탐색 -> '홍길동' 반환
+    7. sayMyName 실행 컨텍스트 종료
+    8. 전역 실행컨텍스트 종료
+  ```
+  
+- **실용적인 클로저 활용**
+
+  ```javascript
+  // ES5, bind 함수 사용
+  function onNavLink(i, e){
+    e.preventDefault();
+    console.log(i, this);
+  }
+  for(; i<l; ++i){
+    var link = nav_links[i];
+      nav_links[i].addEventListener('click', (function(index){
+        return onNavLink.bind(link, index);
+      })(i));
+  }
+
+  // ES6
+  for(let i=0, l=nav_links.length; i<l; ++i){
+      nav_links[i].addEventListener('click', function(e){
+        e.preventDefault();
+        console.log(i);
+      });
+  }
+```
