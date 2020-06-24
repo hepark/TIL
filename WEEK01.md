@@ -284,4 +284,3 @@ console.log(food); // Reference Error
         console.log(i);
       });
   }
-```
