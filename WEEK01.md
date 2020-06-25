@@ -284,3 +284,150 @@ console.log(food); // Reference Error
         console.log(i);
       });
   }
+</details>
+
+<details open>
+<summary>4일차 학습</summary>
+<div markdown="1">
+
+#### 숫자 / 수학 객체
+  - [숫자 값(리터럴)의 4가지 유형]
+    - 10진수(주로 사용): 0으로 시작 가능.
+	    하지만 0다음에 나오는 모든 수가 8보다 작으면 8진수로 해석.
+	    *0으로 시작하는 수를 사용하지 않아야 한다.
+    - 2진수 : 0 또는 b 또는 B 사용. 0b 이후 숫자가 0 또는 1이 아니면 오류
+    - 8진수: 앞에 0 사용. 0 이후 숫자가 범위(0,1,2,3,4,5,6,7)을 벗어나면 10진수로 해석됨.
+    - 16진수: 0 또는 x 또는 x 사용. 0x 이후 숫자가 범위(0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f)를 벗어나면 오류.
+
+  - **Number**
+  ```javascript
+  [속성]
+  Number.MAX_VALUE
+  1.7976931348623157e+308
+  Number.MIN_VALUE
+  5e-324
+  Number.EPSILON
+  2.220446049250313e-16
+  Number.MIN_SAFE_INTEGER
+  -9007199254740991
+  Number.MAX_SAFE_INTEGER
+  9007199254740991
+
+  [메서드]
+
+      [스태틱 메서드 ] - ie 미지원
+          Number.parseFloat()
+          Number.parseInt()
+          Number.isFinite()
+          Number.isInteger()
+          Number.isNaN()
+          Number.isSafeInteger()
+      [인스턴스 메서드]
+          .toExponential()
+          .toFixed()
+          .toPrecision()
+
+          (1203).toExponential()
+          "1.203e+3"
+          (12.01020100001).toFixed(2)
+          "12.01"
+          Number((12.01020100001).toFixed(2))
+          12.01
+          (12.01020100001).toPrecision(6)
+          "12.0102"
+
+          window.parseFloat
+          ƒ parseFloat() { [native code] }
+  ```
+  - **Math**
+  ```javascript
+    Math {abs: ƒ, acos: ƒ, acosh: ƒ, asin: ƒ, asinh: ƒ, …}abs: ƒ abs()acos: ƒ acos()acosh: ƒ acosh()asin: ƒ asin()asinh: ƒ asinh()atan: ƒ atan()atanh: ƒ atanh()atan2: ƒ atan2()ceil: ƒ ceil()cbrt: ƒ cbrt()expm1: ƒ expm1()clz32: ƒ clz32()cos: ƒ cos()cosh: ƒ cosh()exp: ƒ exp()floor: ƒ floor()fround: ƒ fround()hypot: ƒ hypot()imul: ƒ imul()log: ƒ log()log1p: ƒ log1p()log2: ƒ log2()log10: ƒ log10()max: ƒ max()min: ƒ min()pow: ƒ pow()random: ƒ random()round: ƒ round()sign: ƒ sign()sin: ƒ sin()sinh: ƒ sinh()sqrt: ƒ sqrt()tan: ƒ tan()tanh: ƒ tanh()trunc: ƒ trunc()E: 2.718281828459045LN10: 2.302585092994046LN2: 0.6931471805599453LOG10E: 0.4342944819032518LOG2E: 1.4426950408889634PI: 3.141592653589793SQRT1_2: 0.7071067811865476SQRT2: 1.4142135623730951clamp: ƒ clamp()DEG_PER_RAD: 0.017453292519943295degrees: ƒ degrees()fscale: ƒ fscale()iaddh: ƒ iaddh()imulh: ƒ imulh()isubh: ƒ isubh()RAD_PER_DEG: 57.29577951308232radians: ƒ radians()scale: ƒ scale()seededPRNG: ƒ seededPRNG()signbit: ƒ signbit()umulh: ƒ umulh()Symbol(Symbol.toStringTag): "Math"__proto__: Object
+
+    Math.PI
+    3.141592653589793
+
+    Math.PI*2
+    6.283185307179586
+
+    Math.PI / 180 * 32 (radial 값 구하기)
+    0.5585053606381855
+
+    function degToRad(degree){
+        return Math.PI / 180 * degree;
+    }
+    degToRad(180)
+    3.141592653589793
+
+
+    [메서드]
+    Math.min()     -최소
+    Math.max()     -최대
+    Math.random()  -난수
+    Math.floor()   -내림
+    Math.round()   -반올림
+    Math.ceil()    -올림
+    Math.abs()     -절대값
+    Math.pow()     -제곱
+    Math.sqrt()    -제곱근
+    Math.trunc()   -정수반환(소수점제거)
+
+    Math.min(1,10)
+    1
+    Math.max(1,10)
+    10
+    Math.random()*10
+    5.66405328651766
+    Math.floor(Math.random()*10)
+    8
+
+    var foods_of_china = [
+        '짜장면',
+        '탕수육',
+        '짬뽕',
+        '라조기',
+        '깐풍기'
+        
+    ];
+    foods_of_china
+    (5) ["짜장면", "탕수육", "짬뽕", "라조기", "깐풍기"]
+    Math.floor(Math.random() * foods_of_china.length)
+    3
+    foods_of_china[Math.floor(Math.random() * foods_of_china.length)]
+    "탕수육"
+
+    function randomNumber(max, min){
+        min = min || 0;
+        return Math.floor(Math.random() * (max-min)) + min;
+    }
+    randomNumber(3)
+    1
+    randomNumber(3,6)
+    5
+  ```
+
+#### 문자 객체
+  ```javascript
+    var city = 'lonDon';
+    city
+    "lonDon"
+    city[0]
+    "l"
+    city.slice(1);
+    "onDon"
+    city[0].toUpperCase();
+    "L"
+    city.slice(1).toLowerCase();
+    "ondon"
+    city = city[0].toUpperCase() + city.slice(1).toLowerCase();
+    "London"
+
+    var cities = ['lonDon', 'ManCHESTer', 'BiRmiNGHAM', 'liVERpooOL'];
+    for(var i=0, l=cities.length; i<l; i++){
+        var city = cities[i];
+        city = city[0].toUpperCase() + city.slice(1).toLowerCase();
+        cities[i] = city;
+    }
+    "Liverpoool"
+    cities
+    (4) ["London", "Manchester", "Birmingham", "Liverpoool"]
+  ```
