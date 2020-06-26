@@ -431,3 +431,230 @@ console.log(food); // Reference Error
     cities
     (4) ["London", "Manchester", "Birmingham", "Liverpoool"]
   ```
+</details>
+
+<details open>
+<summary>5일차 학습</summary>
+<div markdown="1">
+
+#### [ES6] 문자 ⎼ Template Literal
+- 템플릿 리터럴은 내장된 표현식을 허용하는 문자열 리터럴 입니다. 여러 줄로 이뤄진 문자열과 문자 보간 기능을 사용할 수 있습니다.
+```javascript
+(function(global){
+  'use strict';
+
+  // ——————————————————————————————————————
+  // 데이터
+  // ——————————————————————————————————————
+  const delivery_table_info = {
+    table_class : 'table is-striped is-hoverable is-fullwidth delivery',
+    caption     : '배송 슬롯(투입구) 시간별 Open/Closed 상황',
+    days        : ['월', '화', '수', '목', '금'],
+    contents    : [
+      { time: '09:00 - 10:00', content: ['Closed', 'Open', 'Open', 'Closed', 'Closed'] },
+      { time: '10:00 - 11:00', content: ['Open', 'Open', 'Open', 'Open', 'Closed']     },
+      { time: '11:00 - 12:00', content: ['Closed', 'Open', 'Open', 'Open', 'Open']     },
+      { time: '13:00 - 14:00', content: ['Open', 'Open', 'Open', 'Open', 'Open']       },
+    ]
+  };
+
+  // ——————————————————————————————————————
+  // DOM 스크립팅
+  // ——————————————————————————————————————
+  const demo = document.querySelector('.demo');
+
+  
+  /// ES6 Template Literals(Strings)
+  /// 백틱(`), 인터폴레이션(${})을 사용하여 HTML 템플릿 코드를 수정해봅니다.
+  
+  // 렌더 테이블 함수
+  // HTML 템플릿 + 데이터 바인딩
+  function renderTable(container, data) {
+    let table_template = '\
+      <table class="' + data.table_class + '">\
+        <caption class="a11y-hidden">' + data.caption + '</caption>\
+        <thead>\
+          <tr>\
+            <td>&nbsp;</td>\
+    ';
+
+    const days = data.days;
+    for ( let i=0, l=days.length; i<l; i++ ) {
+      table_template += '\
+            <th scope="col">'+ days[i] + '</th>\
+      ';
+    }
+
+    table_template += '\
+          </tr>\
+        </thead>\
+        <tbody>\
+    ';
+
+    const contents = data.contents;
+    for ( let i=0, l=contents.length; i<l; i++ ) {
+      const context = contents[i];
+      table_template += '\
+          <tr>\
+            <th scope="row">' + context.time + '</th>\
+      ';
+      const content = context.content;
+      for ( let i=0, l=content.length; i<l; i++ ) {
+        table_template += '\
+            <td>' + content[i] + '</td>\
+        ';
+      }
+      table_template += '\
+          </tr>\
+      ';
+    }
+
+    table_template += '\
+        </tbody>\
+      </table>\
+    ';
+
+    container.innerHTML = table_template;
+  }
+
+  // 함수 실행
+  renderTable(demo, delivery_table_info);
+
+})(window);
+```
+
+
+#### [ES6] 문자 ⎼ String Addtions
+- 문자 객체에 새롭게 추가된 인스턴스 메서드(Instance Methods)
+  - .includes() : 텍스트가 포함되어있는지 여부를 불리언 값으로 반환합니다.
+    ```javascript
+    //ES5
+    var players = 'messi ronaldo honaldo son'.split(' ');
+
+    function filterWordList(words, filter) {
+        var word_list = [];
+        for (let i=0, l=words.length; i<l; ++i){
+            var word = words[i];
+            //문자 포함 여부 검증
+            if(word.indexOf('naldo')> -1) {
+                word_list.push(word);
+            }
+        }
+        return word_list;
+    }
+
+    var naldos = filterWordList(players, 'naldo');
+    console.log(naldos);
+
+    VM50745:17 (2) ["ronaldo", "honaldo"]
+
+
+    //ES6
+    var players = 'messi ronaldo honaldo son'.split(' ');
+
+    function filterWordList(words, filter){
+        let word_list = [];
+        for(let i=0, l=words.length; i<l; ++i){
+            let word = words[i];
+            if(word.includes('naldo')){
+                word_list.push(word);
+            }
+        }
+        return word_list;
+    }
+
+    let naldos = filterWordList(players, 'naldo');
+
+    console.log(naldos);
+    VM61209:16 (2) ["ronaldo", "honaldo"]
+
+
+    //ES5
+    var title = '경제 지표 예측';
+    var substring = '지표';
+    console.log(title.indexOf(substring) > -1); // true
+
+    //ES6
+    onst title = '경제 지표 예측';
+    const substring = '지표';
+    console.log(title.includes(substring)); // true
+    ```
+  - .starsWith() : 어떤 문자열이 특정 문자로 시작하는지 확인하여 불리언 값으로 반환합니다.
+    ```javascript
+      // ES5
+      var kings_4 = '청룡 백호 현무 주작';
+      kings_4.substr(0,2) === '백호'; //false
+      kings_4.substr(6,2) === '현무'; //true
+
+      function startsWith(word, find, start) {
+          start = start || 0;
+          return word.substr(start, find.length) === find;
+      }
+      startsWith(kings_4, '주작', 9); //true
+
+      //ES6
+      let kings_4 = '청룡 백호 현무 주작';
+      kings_4.startsWith('백호');
+      kings_4.startsWith('현무', 6);
+    ```
+
+  - .endsWIth() : 어떤 문자열이 특정 문자로 끝나는지 확인하여 불리언 값으로 반환합니다.
+    ```javascript
+    //ES5
+    var season = '봄 여름 가을 겨울';
+    var index = season.length - 2;
+    season.substr(index, 2) === '겨울';
+
+    function endsWith(word, find, end) {
+        end = (end || word.length ) - find.length;
+        var last_index = word.indexOf(find, end);
+        return last_index !== -1 && last_index === end;
+    }
+    endsWith(season, '겨울');
+    endsWith(season, '가을', 7);
+
+    //ES6
+    let season = '봄 여름 가을 겨울';
+
+    season.endsWith('겨울');
+    season.endsWIth('가을', 7);
+    ```
+  - .repeat() : 어떤 문자열을 특정한 개수만큼 반복하여 새로운 문자열을 반환합니다.
+    ```javascript
+     //ES5
+      var repeat_word = '양심과 욕심';
+
+      function repeat(word, count){
+          count = count || 0;
+          if(count === 0) {return ''; }
+          var combine = word;
+          while(--count){
+              combine += word;
+          }
+          return combine;
+      }
+
+      repeat(repeat_word);
+      repeat(repeat_word, 4);
+
+      //ES6
+      let repeat_word = '양심과 욕심';
+
+      repeat_word.repeat();
+      repeat_word.repeat(4);
+
+
+      //ES5
+      function repeat(string, count) {
+        var strings = [];
+        while(strings.length < count) {
+          strings.push(string);
+        }
+        return strings.join('');
+      }
+
+      repeat('오라! ', 3); // '오라! 오라! 오라!'
+
+      //ES6
+      '오라! '.repeat(3); // '오라! 오라! 오라!'
+    ```
