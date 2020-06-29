@@ -37,6 +37,24 @@ fn_list.forEach(function(f){
   for( var prop in my_family){
     y[prop] = my_family[prop];
   }
+
+  case2.
+  function clone(obj){
+    var output = {};
+    for(var i in obj){
+      output[i] = obj[i];
+    }
+    return output;
+  }
+  
+  var original = {a: 10, b: 20};    // 원본 객체
+  var referenced = original;       // 얕은 복사 객체
+  var cloned = clone(original);  // 깊은 복사 객체
+  
+  original.a = 20;
+  
+  alert(JSON.stringify(referenced, null, 2));
+  alert(JSON.stringify(cloned, null, 2));
 ```
 
 - array를 값 복사하는 방법
