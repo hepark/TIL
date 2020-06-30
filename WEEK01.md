@@ -65,6 +65,10 @@ fn_list.forEach(function(f){
     }
     return copy;
   }
+
+  function copyArray(array){
+    return array.slice();
+  }
 ```
 ---------------------------------------
 

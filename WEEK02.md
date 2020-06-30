@@ -4,7 +4,27 @@
 ---
 
 #### 2주차 질문
+- Q. forEach를 공부하다가 야무님이 사용하신 예제 중에 for 문 부분이 이해가 안 되서 문의드립니다.
+  ```javascript
+  var members = ['a', 'b', 'c'];
+  for(var i=members.length; members[--i];) {
+      console.log(members[i]);
+  }
+  ```
+  https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/for<br>
+  MDN 사이트를 보면 for 반복문의 3개 식은 선택사항이라고 하지만, 그 영역을 표시하지 않으면 에러가 생기는데 야무님 소스는 2개밖에 없어서요.
+  ```javascript
+  //MDN 소스
+  var i = 0;
+  for (; i < 9; i++) {
+      console.log(i);
+  }
 
+  for (var i = 0;; i++) {
+   console.log(i);
+   if (i > 3) break;
+  }
+  ```
 <details open>
 <summary>1일차 학습</summary>
 <div markdown="1">
@@ -141,11 +161,11 @@
       1. call() 메서드 (바로 실행)
       thisIsFunction.call(document.body, 10, 20, 30);
 
-      2. apply() 메서드 (바로 실행)
+      1. apply() 메서드 (바로 실행)
       thisIsFunction.apply(document.documentElement, [10, 20, 30]);
 
       // ES 5+
-      3. bind() 메서드 (바로 실행되지 않음)
+      1. bind() 메서드 (바로 실행되지 않음)
       var onClickFn = thisIsFunction.bind(document, 10, 20, 30);
       document.addEventListener('click', onClickFn);
 
@@ -154,3 +174,130 @@
 
 </div>
 </details>
+
+<details open>
+<summary>2일차 학습</summary>
+<div markdown="2">
+
+  #### [배열 객체] 
+  - 배열 객체 생성
+    ```javascript
+    [] 또는 new Array()
+    ````
+  - 인덱스(index)로 배열 아이템에 접근
+    ```javascript
+    array[index]
+    ````
+  - 배열 객체 아이템들을 순환 처리
+    ```javascript
+    array.forEach(function(member, index){
+      i = index, array[i] = member
+    });
+    ```
+  - 배열 객체에 새로운 아이템 추가 (Last In)
+    ```javascript
+    members.push({
+      gender: '남성'
+    });
+    ```
+  - 배열 객체의 마지막 아이템 제거
+    ```javascript
+    array.pop();
+    ```
+  - 배열 객체에 새로운 아이템 추가 (First In)
+    ```javascript
+    array.unshift();
+    ```
+  - 배열 객체의 첫번째 아이템 제거
+    ```javascript
+    array.shift();
+    ```
+  - 배열 객체 아이템 인덱스 찾기
+    ```javascript
+    // array.indexOf(item)
+    var a = [2,9,22];
+    a.indexOf(2);
+    0
+    a.indexOf(-1);
+    -1
+    ```
+  - 배열 객체 아이템 1개 제거
+    ```javascript
+    array.splice(index, 1)
+    ```
+  - 배열 객체 아이템 1개 제거
+    ```javascript
+    // array.splice(index, n)
+    array.splice(1, 0, {name: '야무'});  //원하는 위치에 새로운 데이터 추가
+    ```
+  - 배열 객체 아이템 1개 제거
+    ```javascript
+    array.length = 0
+    ```
+  - 배열 복사
+    ```javascript
+    // copy_array = array.slice()
+    var copy_members = members.slice();
+    ```
+  - 배열 검증
+    ```javascript
+    // Array.isArray(array)
+    Array.isArray(members)
+    true
+    ```
+  - 배열 순서 정렬
+    ```javascript
+    // array.sort()
+    [-1,20,1,9].sort(function(a,b){
+        return a-b;
+    });
+    (4) [-1, 1, 9, 20]
+    [-1,20,1,9].sort(function(a,b){
+        return b-a;
+    });
+    (4) [20, 9, 1, -1]
+
+    members.sort(function(p1, p2){
+        return p1.name < p2.name ? -1 : p1.name > p2.name ? 1 : 0;
+    });
+
+    var key = 'email';
+    undefined
+    members.sort(function(p1, p2){
+        return p1[key] < p2[key] ? -1 : p1[key] > p2[key] ? 1 : 0;
+    });
+    ```
+  - 배열 순서 뒤집기
+    ```javascript
+    array.reverse()
+    ```
+  - slice( )와 splice( )의 차이점 : 
+    - slice() 메소드는 begin부터 end 전까지의 복사본을 새로운 배열 객체로 반환한다. 즉, 원본 배열은 수정되지 않는다.
+    - splice() 메소드는 배열의 기존 요소를 삭제 또는 교체하거나 새 요소를 추가하여 배열의 내용을 변경한다. 이 메소드는 원본 배열 자체를 수정한다.
+
+  **속성**
+  - array.length
+
+  **메서드**
+  - 변경 메서드 (원본 배열 데이터 수정) 
+    - array.push()
+    - array.pop()
+    - array.unshift()
+    - array.shift()
+    - array.reverse()
+    - array.sort()
+    - array.splice() 
+  - 접근 메서드 (원본 배열 데이터 보존)
+    - array.concat()
+    - array.indexOf()
+    - array.lastIndexOf()
+    - array.join()
+    - array.slice()
+    - array.toString() 
+  - 반복 메서드
+    - array.forEach(function(item, index){})
+    - array.map(function(item, index){})
+    - array.filter(function(item, index){})
+    - array.every(function(item, index){})
+    - array.some(function(item, index){})
+    - array.reduce(function(item, index){})
