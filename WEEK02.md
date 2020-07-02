@@ -738,3 +738,215 @@
   // Array.prototype.findIndex
   [false, 10, NaN, {}].findIndex(x => Object.is(x, NaN)); // 2
   ```
+</details>
+
+<details open>
+<summary>4일차 학습</summary>
+<div markdown="1">
+
+  #### [배열 객체의 메서드]
+   - forEach
+     - 주어진 함수를 배열 요소 각각에 대해 실행
+     - 매개변수
+        - callback
+          - currentValue
+          - index(Optional) : 처리할 현재 요소의 인덱스.
+          - array(Optional) : forEach()를 호출한 배열.
+        - thisArg(Optional) : callback을 실행할 때 this로 사용할 값.
+      - 반환값 : undefined
+      ```javascript
+        const array1 = ['a', 'b', 'c'];
+
+        array1.forEach(element => console.log(element));
+
+        // expected output: "a"
+        // expected output: "b"
+        // expected output: "c"
+      ```
+   - map
+     - 배열 내의 모든 요소 각각에 대하여 주어진 함수를 호출한 결과를 모아 새로운 배열을 반환
+     - 기존 배열의 값을 변형하지 않는다.
+     - map이 시작한 이후 배열에 추가되는 요소들은 callback을 호출하지 않는다.
+     - map을 호출한 배열의 중간이 비어있는 경우, 결과 배열 또한 동일한 인덱스를 빈 값으로 유지한다.
+     - 매개변수
+        - callback
+          - currentValue
+          - index(Optional) : 처리할 현재 요소의 인덱스.
+          - array(Optional) : map()를 호출한 배열.
+        - thisArg(Optional) : callback을 실행할 때 this로 사용할 값.
+      - 반환값 : 배열의 각 요소에 대해 실행한 callback의 결과를 모은 새로운 배열.
+      ```javascript
+        const array1 = [1, 4, 9, 16];
+
+        // pass a function to map
+        const map1 = array1.map(x => x * 2);
+
+        console.log(map1);
+        // expected output: Array [2, 8, 18, 32]
+      ```
+   - filter
+      - 주어진 함수의 테스트를 통과하는 모든 요소를 모아 새로운 배열로 반환
+      - 호출한 배열의 값을 변형하지 않는다.
+      - map이 시작한 이후 배열에 추가되는 요소들은 callback을 호출하지 않는다.
+      - map을 호출한 배열의 중간이 비어있는 경우, 결과 배열 또한 동일한 인덱스를 빈 값으로 유지한다.
+      - 매개변수
+        - callback
+          - element : 처리할 현재 요소
+          - index(Optional) : 처리할 현재 요소의 인덱스.
+          - array(Optional) : filter()를 호출한 배열.
+        - thisArg(Optional) : callback을 실행할 때 this로 사용할 값.
+      - 반환값 : 테스트를 통과한 요소로 이루어진 새로운 배열. 어떤 요소도 테스트를 통과하지 못했으면 빈 배열을 반환
+      ```javascript
+        const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+
+        const result = words.filter(word => word.length > 6);
+
+        console.log(result);
+        // expected output: Array ["exuberant", "destruction", "present"]
+      ```
+   - slice 
+      - 어떤 배열의 begin부터 end까지(end 미포함)에 대한 얕은 복사본을 새로운 배열 객체로 반환
+      - 원본 배열을 변형하지 않는다.
+      - end가 생략되면 slice()는 배열의 끝까지(arr.length) 추출
+      - 매개변수
+        - begin(Optional) : 0을 시작으로 하는 추출 시작점에 대한 인덱스를 의미
+        - end(Optional) : 추출을 종료 할 0 기준 인덱스
+      - 반환값 : 추출한 요소를 포함한 새로운 배열.
+      ```javascript
+        const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+
+        console.log(animals.slice(2));
+        // expected output: Array ["camel", "duck", "elephant"]
+
+        console.log(animals.slice(2, 4));
+        // expected output: Array ["camel", "duck"]
+
+        console.log(animals.slice(1, 5));
+        // expected output: Array ["bison", "camel", "duck", "elephant"]
+      ```
+   - splice
+      - 배열의 기존 요소를 삭제 또는 교체하거나 새 요소를 추가
+      - 원본 배열을 변형한다.
+      - end가 생략되면 slice()는 배열의 끝까지(arr.length) 추출
+      - 매개변수
+        - start : 배열의 변경을 시작할 인덱스
+        - deleteCount(Optional) : 배열에서 제거할 요소의 수
+        - item1, item2, ...(Optional) : 배열에 추가할 요소
+      - 반환값 : 제거한 요소를 담은 배열.
+      ```javascript
+        const months = ['Jan', 'March', 'April', 'June'];
+        months.splice(1, 0, 'Feb');
+        // inserts at index 1
+        console.log(months);
+        // expected output: Array ["Jan", "Feb", "March", "April", "June"]
+
+        months.splice(4, 1, 'May');
+        // replaces 1 element at index 4
+        console.log(months);
+        // expected output: Array ["Jan", "Feb", "March", "April", "May"]
+      ```
+   - sort 
+      - 배열의 요소를 적절한 위치에 정렬한 후 그 배열을 반환
+      - 원본 배열을 변형한다.
+      - 기본 정렬 순서는 문자열의 유니코드 코드 포인트를 따른다.
+      - 매개변수
+        - compareFunction(Optional) : 정렬 순서를 정의하는 함수.
+      - 반환값 : 정렬한 배열.
+      ```javascript
+        const months = ['March', 'Jan', 'Feb', 'Dec'];
+        months.sort();
+        console.log(months);
+        // expected output: Array ["Dec", "Feb", "Jan", "March"]
+
+        const array1 = [1, 30, 4, 21, 100000];
+        array1.sort();
+        console.log(array1);
+        // expected output: Array [1, 100000, 21, 30, 4]
+      ```
+
+      ```javascript
+        function compare(a, b) {
+          if (a is less than b by some ordering criterion) {
+            return -1;
+          }
+          if (a is greater than b by the ordering criterion) {
+            return 1;
+          }
+          // a must be equal to b
+          return 0;
+        }
+      ```
+   - reduce 
+      - 배열의 각 요소에 대해 주어진 리듀서(reducer) 함수를 실행하고, 하나의 결과값을 반환
+      - 원본 배열을 변형한다.
+      - 기본 정렬 순서는 문자열의 유니코드 코드 포인트를 따른다.
+      - 매개변수
+        - callback : 배열의 각 요소에 대해 실행할 함수
+          - accumulator : 콜백의 반환값을 누적
+          - currentValue : 처리할 현재 요소
+          - currentIndex(Optional) : 처리할 현재 요소의 인덱스
+          - array(Optional) : reduce()를 호출한 배열
+        - initialValue(Optional) : callback의 최초 호출에서 첫 번째 인수에 제공하는 값.
+      - 반환값 : 누적 계산의 결과 값.
+      ```javascript
+        const array1 = [1, 2, 3, 4];
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+        // 1 + 2 + 3 + 4
+        console.log(array1.reduce(reducer));
+        // expected output: 10
+
+        // 5 + 1 + 2 + 3 + 4
+        console.log(array1.reduce(reducer, 5));
+        // expected output: 15
+      ```
+   - isArray
+      - 인자가 Array인지 판별
+      - 매개변수
+        - obj : 검사할 객체.
+      - 반환값 : 객체가 Array라면 true, 아니라면 false.
+      ```javascript
+        Array.isArray([1, 2, 3]);  // true
+        Array.isArray({foo: 123}); // false
+        Array.isArray('foobar');   // false
+        Array.isArray(undefined);  // false
+      ```
+   - some
+      - 배열 안의 어떤 요소라도 주어진 판별 함수를 통과하는지 테스트
+      - 빈 배열에서 호출하면 무조건 false를 반환.
+      - 매개변수
+        - callback : 각 요소를 시험할 함수
+          - currentValue : 처리할 현재 요소
+          - index(Optional) : 처리할 현재 요소의 인덱스
+          - array(Optional) : some을 호출한 배열
+        - thisArg(Optional) : callback을 실행할 때 this로 사용할 값.
+      - 반환값 : callback이 어떤 배열 요소라도 대해 참인(truthy) 값을 반환하는 경우 true, 그 외엔 false.
+      ```javascript
+        const array = [1, 2, 3, 4, 5];
+
+        // checks whether an element is even
+        const even = (element) => element % 2 === 0;
+
+        console.log(array.some(even));
+        // expected output: true
+
+      ```
+   - every
+      - 배열 안의 모든 요소가 주어진 판별 함수를 통과하는지 테스트
+      - 빈 배열에서 호출하면 무조건 true를 반환.
+      - 매개변수
+        - callback : 각 요소를 시험할 함수
+          - currentValue : 처리할 현재 요소
+          - index(Optional) : 처리할 현재 요소의 인덱스
+          - array(Optional) : every를 호출한 배열
+        - thisArg(Optional) : callback을 실행할 때 this로 사용할 값.
+      - 반환값 : callback이 모든 배열 요소에 대해 참(truthy)인 값을 반환하는 경우 true, 그 외엔 false.
+      ```javascript
+        const isBelowThreshold = (currentValue) => currentValue < 40;
+
+        const array1 = [1, 30, 39, 29, 10, 13];
+
+        console.log(array1.every(isBelowThreshold));
+        // expected output: true
+
+      ```
