@@ -951,3 +951,188 @@
         // expected output: true
 
       ```
+</details>
+
+<details open>
+<summary>5일차 학습</summary>
+<div markdown="1">
+
+  #### [Set]
+  - 배열 객체와 달리 Set 객체는 아이템 중복을 허용하지 않는다.
+  ```javascript     
+  // 배열(Array)
+  const features = ['modules','arrow function','let, const','rest parameter','modules'];
+
+  console.log(features.length, features[0]); // 5, 'modules'
+
+
+  // 세트(Set) : new Set([iterable]);
+  const features_set = new Set(features);
+
+  console.log(features_set.size, features_set[0]); // 4, undefined
+  ```
+
+  - Set 객체 메서드
+
+    - size : 아이템갯수
+    - add() : 추가
+    - has() : 소유 확인
+    - delete() : 제거
+    - clear() : 모두 제거
+
+
+  ```javascript
+  // Set 객체 생성
+  const set = new Set([3, 9]);
+
+  // 아이템 추가
+  set.add(10);
+
+  // 아이템 개수 출력
+  console.log(set.size); // 3
+
+  // 아이템 제거
+  set.delete(9);
+
+  console.log(set.size); // 2
+
+  // 아이템 소유 확인
+  console.log(set.has(9)); // false
+
+  // 아이템 모두 제거
+  set.clear();
+
+  console.log(set.size); // 0
+  ```
+  - Set 객체를 순환하는 메서드
+
+    - forEach()
+    - entries()
+    - values()
+    - keys()
+```javascript
+  const oneTwoThree = new Set(['하나', '둘', '둘', '셋']);
+
+  oneTwoThree.forEach(n => console.log(n)); // '하나', '둘', '셋'
+
+  for (let item of oneTwoThree.entries()) {
+    console.log(item);
+    // ['하나', '하나']
+    // ['둘', '둘']
+    // ['셋', '셋']
+  }
+
+  for (let key of oneTwoThree.keys()) {
+    console.log(key);
+    // '하나'
+    // '둘'
+    // '셋'
+  }
+
+  for (let value of oneTwoThree.values()) {
+    console.log(value);
+    // '하나'
+    // '둘'
+    // '셋'
+  }
+```
+  - Set 확장 클래스 
+```javascript
+class y9Set extends Set {
+
+  // 합집합
+  union(x){ return new Set([...this, ...x]) }
+
+  // 교집합
+  intersect(x){return new Set([...this].filter(y => x.has(y)))}
+
+  // 차집합
+  diff(x){return new Set([...this].filter(y => !x.has(y)))}
+
+  // 상위 집합 유무 확인
+  isSuperset(x){
+    for (let y of x) {
+      if (!this.has(y)) { return false; }
+    }
+    return true;
+  }
+  ```
+  #### [WeakSet]
+  - 객체만 수집할 수 있고 약한 참조가 이루어져 메모리 누수를 예방할 수 있다.
+  - 차이점
+    - size 속성을 가지지 않습니다.
+    - 객체 타입만 .add()하거나, .delete() 할 수 있습니다.
+    - forEach, for..in문을 사용해 순환할 수 없습니다.
+    - 약한 참조로 메모리 누수 관리에 효과적입니다.
+  ```javascript
+  // 데이터(객체)
+  let arr = [1, 3, 5, 7],
+    obj = {key: 'value'};
+
+    // Set 객체 생성
+    let set = new Set();
+
+    // WeakSet 객체 생성
+    let wset = new WeakSet();
+
+    // 아이템 추가
+    set.add(arr).add(obj);
+    wset.add(arr).add(obj);
+
+    // 아이템 사이즈
+    console.log(set.size);  // 2
+    console.log(wset.size); // undefined
+
+    // 객체가 아닌 데이터 추가
+    set.add(true);
+    wset.add(true); // 오류 발생: Invalid value used in weak set
+
+    // 아이템 소유 여부 확인
+    set.has(obj);  // true
+    wset.has(obj); // true
+
+    // 아이템 제거
+    set.delete(arr);  // true
+    wset.delete(arr); // true
+
+    // 세트 순환
+    set.forEach(item => console.log(item));  // 참조된 데이터에 접근 및 사용 가능
+    wset.forEach(item => console.log(item)); // 오류 발생: wset.forEach is not a function
+
+    // 메모리 참조
+    let set  = new Set();
+    let wset = new WeakSet();
+
+    (() => {
+
+      let o1 = {a: 1}; // 메모리
+      let o2 = {a: 2}; // 가비지 컬렉터에 의해 메모리 삭제
+
+      set.add(o1);
+      wset.add(o2);
+
+    });
+  ```
+
+  ```javascript
+  // WeakSet 객체 생성
+  let ownClass = new WeakSet();
+
+  // 클래스 OffCanvasMenu 정의
+  class OffCanvasMenu {
+
+    constructor() {
+      // 클래스 자신을 ownClass에 추가
+      ownClass.add(this);
+      // ...
+    }
+
+    toggle() {
+      // OffCanvasMenu 객체가 아닌,
+      // 다른 객체가 toggle() 메서드를 사용하려 할 경우 오류 출력
+      if ( !ownClass.has(this) ) {
+        throw new TypeError('toggle() 메서드는 OffCanvasMenu 객체만 사용 가능합니다!');
+      }
+    }
+  }                 
+  ```
