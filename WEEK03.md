@@ -255,3 +255,169 @@
   - Abstraction - 복잡한 상속, 메서드, 객체 속성의 결합은 반드시 현실 모델을 시뮬레이션할 수 있어야 합니다.
   - Polymorphism - 다른 Class 들이 같은 메서드나 속성으로 정의될 수 있습니다.
 </details>
+
+
+<details open>
+<summary>3일차 학습</summary>
+<div markdown="1">
+
+  #### [Shorthand Properties]
+  - 객체 초기화(object initializer)
+    - new Object()
+    - Object.create()
+    - 리터럴 표기법(literal)
+    ```javascript
+    var favorites = {
+      animations: animations,
+      movies: movies,
+      music: music
+    };
+
+    // ES6
+    const favorites = { animations, movies, music };
+
+    // 또는
+    var favorites = {
+      animations,
+      movies,
+      music
+    };
+    ```
+    #### [Object Enhancements]
+    - Abbreviated method(간추린 메서드 표기법)
+      ```javascript
+        let name  = 'SM7',
+          maker = 'Samsung',
+          boost = 'powerUp';
+
+      const car = {
+        // 간추린 메서드 표기법
+        go() {},
+        stop() {},
+        boost() {}
+      };
+
+      console.dir(car);
+      // Object
+      //  ↳ go: ƒ go()
+      //  ↳ stop: ƒ stop()
+      //  ↳ boost: ƒ boost()
+      //  ↳ __proto__: Object
+      ```
+    - Computed Dynamic Property Name(계산된 속성 이름 동적 설정)
+      ```javascript
+        let name  = 'SM7',
+          maker = 'Samsung',
+          boost = 'powerUp',
+          dynamicMethod = 'Satisfactory';
+
+        const car = {
+          go() {},
+          ['stop']() {},
+          [boost]() {}, // 변수를 받아 계산된 속성 이름 적용 가능
+          [`${dynamicMethod.replace(/s/ig, 'S')}`]() {} // JavaScript 식을 계산하여 동적으로 속성 이름 적용 가능
+        };
+
+        console.dir(car);
+        // Object
+        //  ↳ go: ƒ go()
+        //  ↳ powerUp: ƒ [boost]()
+        //  ↳ stop: ƒ ['stop']()
+        //  ↳ SatiSfactory: ƒ [`${dynamicMethod.replace(/s/ig, 'S')}`]()
+        //  ↳ __proto__: Object
+      ```
+
+    - get : get 구문은 객체의 프로퍼티를 그 프로퍼티를 가져올 때 호출되는 함수로 바인딩 합니다. 
+
+    - set : 구문은 어떤 객체의 속성에 이 속성을 설정하려고 할 때 호출되는 함수를 바인드 합니다.
+      ```javascript
+        const car = {
+          // 감춰진(private) 속성
+          // JavaScript 언어에서는 private를 지원하지 않아
+          // 이름 작성 시, _ 기호를 붙여 암시.
+          _wheel: 4,
+          // 게터(getter)
+          get wheel() {
+            return this._wheel;
+          },
+          // 세터(setter)
+          set wheel(new_wheel) {
+            this._wheel = new_wheel;
+          }
+        };
+
+        console.log(car.wheel); // 4
+
+        car.wheel = 8;
+        console.log(car.wheel); // 8
+
+        // 비공개 속성임을 암시하는 언더스코어가 있지만,
+        // 접근이 불가능한 것은 아닙니다.
+        console.log(car._wheel); // 8
+      ```
+    - symbol 
+      - 고유하고 수정 불가능한 데이터 타입 
+      - 주로 객체 속성(object property)들의 식별자로 사용 
+      - 심볼 객체(symbol object) 는 심볼 기본형 변수(primitive data type)의 암묵적(implicit) 객체 래퍼(wrapper)
+        ```javascript
+        {
+          let _wheel = Symbol('wheel');
+
+          global.car = {
+            // 등록된 심볼을 계산된 속성으로 사용
+            [_wheel]: 4,
+            get wheel() {
+              return this[_wheel]; // 심볼 반환
+            },
+            set wheel(new_wheel) {
+              if ( typeof new_wheel !== 'number' ) {
+                throw new Error('전달 인자 유형은 숫자여야 합니다.');
+              }
+              // 계산된 값을 심볼에 할당
+              this[_wheel] = new_wheel > 4 ? new_wheel : 4;
+            }
+          };
+        }
+        ```
+    #### [Destructuring Assignment]
+    - 구조 분해 할당 구문 : 배열의 값이나 객체의 속성을 별개의 변수로 추출할 수 있게 하는 자바스크립트 식
+    - 배열 구조 분해 할당
+      ```javascript
+      // 기존 코드
+      var arr = [1, 2, 3, 4];
+
+      var a = arr[0];
+      var b = arr[1];
+      var c = arr[2];
+      var d = arr[3];
+
+      console.log(a); // 1
+      console.log(b); // 2
+
+      // ES6
+      let [a, b, c, d] = [1, 2, 3, 4];
+
+      console.log(a); // 1
+      console.log(b); // 2
+      ```
+    - 객체 구조 분해 할당
+      ```javascript
+      // 기존 코드
+      var obj = {
+        type: 'Object',
+        collection: 'key: value',
+        isItTheParentOfAllObjects: true
+      };
+
+      var type = obj.type;
+      var collection = obj['type'];
+      var isItTheParentOfAllObjects = obj.isItTheParentOfAllObjects;
+
+      console.log(type); // 'Object'
+      console.log(isItTheParentOfAllObjects); // true
+
+      // ES6
+      let { type, collection, isItTheParentOfAllObjects } = obj;
+
+      console.log(type); // 'Object'
+      console.log(isItTheParentOfAllObjects); // true
