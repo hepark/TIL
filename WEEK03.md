@@ -421,3 +421,144 @@
 
       console.log(type); // 'Object'
       console.log(isItTheParentOfAllObjects); // true
+</details>
+
+<details open>
+<summary>4일차 학습</summary>
+<div markdown="1">
+
+  #### [ES6 클래스] 
+  - class 선언(declaration)은 프로토타입(원형) 기반 상속을 사용하여 주어진 이름으로 새로운 클래스를 만든다.
+  - class 식(expression)을 사용하여 클래스를 정의할 수도 있다
+  - ES6 : 호이스트 되지 않음(클래스 선언 이전에 사용하면 참조 오류 발생)
+  - class 내부에 변수를 정의할 수 없다.
+  - class안에 ,(콤마)를 사용하면 문법오류가 발생한다.
+  - 표현식으로 정의할 수 있다.
+  ```javascript
+    //ES5
+    // 생성자 함수
+    function Dom(){}
+        console.log('this is constructor');
+    }
+
+    //스태틱 메서드
+    Dom.createEls = function(){};
+    Dom.prototype.init = function (){};
+    Dom.prototype.bind = function (){};
+
+    //ES6
+    class Dom{
+      //생성자(클래스를 통해 객체를 생성할 떄 즉시 실행
+      constructor() {
+          console.log('this is constructor');
+      }
+
+      //스태틱 메서드(=클래스 메서드) => 객체를 생성하지 않고 사용할 수 있음
+      static createEls (){}
+
+      // 인스턴스 메서드
+      init(){}
+      bind(){}
+    }
+  ```
+  ```javascript
+    (function(global){
+      //비공개(private  멤버) => _관례적 이름 규칙일 뿐, 데이터가 안전하게 보호되지 않는다.
+      var _origin = '에디오피아';
+
+      //생성자 함수
+      function Coffee(been) {
+          //공개 멤버
+          this.bean = bean;
+      }
+
+      //스태틱 메서드
+      Coffee.origin = function (){return _origin; };
+      //인스턴스 메서드
+      Coffee.prototype.parch = function(time) {};
+  })(window);
+
+
+  (()=> {
+      let _origin = "이디오피아";
+      class Coffee {
+          constructor(bean) {
+              this.bean = bean;
+          }
+
+          static origin (){return _origin;}
+
+          parch(time){console.log(time + "동안 말린다")}
+      }
+
+      let arb = new Coffee('arabica');
+      console.log(arb);
+
+      console.log(arb.parch(3,000))
+      console.log(Coffee.origin());
+
+  })(); 
+  ```
+
+  ### [Private Data]
+  - Sub Classing
+    - 복잡한 프로토타입 기반 상속과 달리 ES6 클래스 기반 상속은 이해하기 쉽고 사용하기 편리함
+    ```javascript
+      class Coffee {
+        constructor(bean) {this.bean = bean}
+        parch(time) {console.log(`${time}만큼 $(this.bean)을 볶다`);}
+      }
+
+      var arb = new Coffee('arabica');
+
+      arb
+      Coffee {bean: "arabica"}bean: "arabica"__proto__: Object
+
+      class Latte extends Coffee {
+        constructor(bean, milk) {
+            super(bean);
+            this.milk = milk;
+        }
+        //메서드 오버라이드
+        parch(hour) {
+          super.parch(hour/2);
+          console.log(`${hour/4}시간 만큼 ${this.milk}를 넣고 끓인다`);
+        }
+      }
+
+      Object.getPrototypeOf(Latte) === Coffee
+      true
+      Latte.__proto__ === Coffee
+      true
+    
+      class Projects {
+        constructor(name) { this.name = name; console.log('projects');}
+        goAHead() {console.log(`$(this.name) 프로젝트를 추진한다.`);}
+        getDeadline() {return 1;}
+      }
+
+    class HardwareProjects extends Projects {
+      constructor (name, deadline) {
+          super(name);
+          this.deadline = deadline;
+          console.log('HW Projects');
+      }
+        
+      //오버라이딩(Overriding)
+      goAHead(){
+          super.goAHead();
+          console.log(`$(this.deadline)년 안에 추진한다.`);
+      }
+      getDeadline() {
+          console.log(`프로젝트 기한은 $(super.getDeadline() + this.deadline}년 입니다.)`);
+      }
+    }
+
+    const carEngineProject = new HardwareProjects('자동차 엔진 개발', 4);
+    VM3605:2 projects
+    VM3605:11 HW Projects
+
+    carEngineProject.getDeadline()
+    VM3605:20 프로젝트 기한은 $(super.getDeadline() + this.deadline}년 입니다.)
+    ```
+    
