@@ -59,8 +59,8 @@
     - compareDocumentPosition()(IE9+)
 
   - Document메서드
-    - createElement()
-    - createTextNode()
+    - createElement() : 요소를 생성
+    - createTextNode() : 텍스트 노드를 생성
 
   - HTML*Element속성
     - children
@@ -92,6 +92,14 @@
       ```javascript
       node.hasChildNodes()
       ```
+    - .appendChild() : 한 노드를 특정 부모 노드의 자식 노드 리스트 중 마지막 자식으로 붙인다. 
+      ```javascript
+      var aChild = element.appendChild(aChild);
+      ```
+    - .insertBefore() : 참조된 노드 앞에 특정 부모 노드의 자식 노드를 삽입 
+      ```javascript
+      var insertedNode = parentNode.insertBefore(newNode, referenceNode);
+      ```
     - .createTextNode() : 텍스트 노드를 생성
       ```javascript
       텍스트 = document.createTextNode(데이터);
@@ -109,5 +117,42 @@
     - .cloneNode() : 이 메서드를 호출한 Node 의 복제된 Node를 반환
       ```javascript
       var dupNode = node.cloneNode(deep);
+      ```
+    - .contains() : 주어진 인자가 node 의 자손인지, 아닌지에 대한 Boolean 값을 리턴
+      ```javascript
+      node.contains( otherNode ) 
+      ```
+    - .isEqualNode() : 두 노드가 같은지 테스트
+      ```javascript
+        var isEqualNode = node.isEqualNode(otherNode);
+      ```
+    - .compareDocumentPosition() : 현재 노드와 문서 안의 다른 노드와의 위치를 비교
+      ```javascript
+        compareMask = node.compareDocumentPosition(otherNode)
+
+        const head = document.head;
+        const body = document.body;
+
+        if (head.compareDocumentPosition(body) === Node.DOCUMENT_POSITION_FOLLOWING) {
+          console.log('Well-formed document');
+        } else {
+          console.error('<head> is not before <body>');
+        }
+      ```
+    - .insertAfter : 헬퍼함수로 만듬
+      ```javascript
+        function insertAfter(insert, target) {
+            var parent = target.parentNode;
+            if(parent.lastElementChild.isEqualNode(target)){
+                parent.appendChild(insert);
+            }else{
+                var next = target.nextElementSibling;
+                parent.insertBefore(insert, next);
+            }
+
+        }
+
+        insertAfter(document.createElement('div'), document.querySelector('.brand'));
+        insertAfter(document.createElement('span'), $0);
       ```
 </details>
