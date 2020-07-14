@@ -562,3 +562,145 @@
     VM3605:20 프로젝트 기한은 $(super.getDeadline() + this.deadline}년 입니다.)
     ```
     
+</details>
+
+<details open>
+<summary>5일차 학습</summary>
+<div markdown="1">
+
+  #### [세트 (Set) / 맵 (Map)] 
+  - Set 객체는 값 콜렉션(Collections)으로 삽입된 순서대로 요소들을 반복(iterate) 할 수 있다.
+    ```javascript
+      // 배열(Array)
+      const features = ['modules','arrow function','let, const','rest parameter','modules'];
+
+      console.log(features.length, features[0]); // 5, 'modules'
+
+
+      // 세트(Set) : new Set([iterable]);
+      const features_set = new Set(features);
+
+      console.log(features_set.size, features_set[0]); // 4, undefined    
+    ```
+  - Set 객체는 아이템 개수를 반환하는 속성과 추가, 소유 확인, 제거, 모두 제거를 처리하는 메서드를 제공한다.
+    - .size
+    - .add()
+    - .has()
+    - .delete()
+    - .clear()
+    ```javascript
+      // Set 객체 생성
+      const set = new Set([3, 9]);
+
+      // 아이템 추가
+      set.add(10);
+
+      // 아이템 개수 출력
+      console.log(set.size); // 3
+
+      // 아이템 제거
+      set.delete(9);
+
+      console.log(set.size); // 2
+
+      // 아이템 소유 확인
+      console.log(set.has(9)); // false
+
+      // 아이템 모두 제거
+      set.clear();
+
+      console.log(set.size); // 0
+    ```
+  - Set 객체는 객체를 순환하는 메서드도 제공한다.
+
+    - .forEach()
+    - .entries()
+    - .values()
+    - .keys()
+    ```javascript
+      const oneTwoThree = new Set(['하나', '둘', '둘', '셋']);
+
+      oneTwoThree.forEach(n => console.log(n)); // '하나', '둘', '셋'
+
+      for (let item of oneTwoThree.entries()) {
+        console.log(item);
+        // ['하나', '하나']
+        // ['둘', '둘']
+        // ['셋', '셋']
+      }
+
+      for (let key of oneTwoThree.keys()) {
+        console.log(key);
+        // '하나'
+        // '둘'
+        // '셋'
+      }
+
+      for (let value of oneTwoThree.values()) {
+        console.log(value);
+        // '하나'
+        // '둘'
+        // '셋'
+      }
+      ```
+  - Set 확장 클래스 : Set 클래스를 확장하는 사용자 정의 클래스 y9Set을 정의한 후, 합집합, 교집합, 차집합, 부분집합을 처리하는 메서드를 정의할 수 있다.
+    ```javascript
+      class y9Set extends Set {
+
+        // 합집합
+        union(x){ return new Set([...this, ...x]) }
+
+        // 교집합
+        intersect(x){return new Set([...this].filter(y => x.has(y)))}
+
+        // 차집합
+        diff(x){return new Set([...this].filter(y => !x.has(y)))}
+
+        // 상위 집합 유무 확인
+        isSuperset(x){
+          for (let y of x) {
+            if (!this.has(y)) { return false; }
+          }
+          return true;
+        }
+      ```
+  - Map 객체는 속성(Key)/값(Value) 쌍으로 구성된 객체이다.
+  - Map 객체는 get, set 그리고 has 등의 메소드를 제공한다.
+    ```javascript
+      let map = new Map();
+
+      map.set('name', '야무');
+      map.get('name'); // 야무
+      map.has('name'); // true
+    ```
+  - Map 객체는 키 값으로 문자열만 쓰지 않아도 되며 어떤 타입을 전달해도 문자열로 형변환 하지 않는다.
+    ```javascript
+      let map = new Map([
+        ['이름', '야무'],
+        [true, 'false'],
+        [1, '하나'],
+        [{}, '객체'],
+        [function () {}, '함수']
+    ]);
+
+    for (let key of map.keys()) {
+        console.log(typeof key);
+        // string
+        // boolean
+        // number
+        // object
+        // function
+    }
+    ```
+  - .entries() 메서드
+    ```javascript
+      for (let [key, value] of map.entries()) {
+        console.log(key, value);
+        // '이름', '야무'
+        // true, 'false'
+        // 1, '하나'
+        // {}, '객체'
+        // function () {}, '함수'
+      }
+    ```
+</details>
