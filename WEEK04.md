@@ -156,3 +156,187 @@
         insertAfter(document.createElement('span'), $0);
       ```
 </details>
+
+<details open>
+<summary>3일차 학습</summary>
+<div markdown="1">
+
+  #### [ElementNode 속성 / 메서드]
+
+  #### HTML Element 속성
+
+  - children : live HTML Collection
+    ```javascript
+    Array.prototype.forEach.call(document.head.querySelectorAll('script'), function(script){
+        script.parentNode.removeChild(script)
+    });
+
+    document.head.children
+    HTMLCollection(7) [meta, title, base, link, style#chs, link, link, chs: style#chs]
+    ```
+  - firstElementChild
+  - lastElementChild
+  - nextElementSibling
+  - previousElementSibling
+  - attributes(이 속성을 통해 반환되는 유사 배열 집합은 라이브 상태, 즉 실시간으로 변경된다) 
+  - innerHTML
+  - outerHTML
+  - innerText
+    - innerText vs textContent : textContent는 태그로 인식하지 않는다.
+    ```javascript
+    document.querySelector('.footer-tos');
+    <ul class=​"footer-tos">​…​</ul>​
+
+    document.querySelector('.footer-tos').innerHTML;
+    "<li><a href="https://www.mozilla.org/about/legal/terms/mozilla">Terms</a></li>
+    <li><a href="https://www.mozilla.org/privacy/websites/">Privacy</a></li>
+    <li><a href="https://www.mozilla.org/privacy/websites/#cookies">Cookies</a></li>"
+
+    document.querySelector('.footer-tos').innerHTML = '<li>체인지</li>'
+    "<li>체인지</li>"
+
+    document.querySelector('.footer-tos').outerHTML
+    "<ul class="footer-tos"><li>체인지</li></ul>"
+
+    document.querySelector('.footer-tos').innerText
+    "체인지"
+    ```
+  - classList(IE 10+)
+    - add()
+    - remove()
+    - contains()
+    - toggle()
+
+  #### HTML Element 메서드
+  - getAttribute( )
+  - setAttribute( )
+  - removeAttribute( )
+  - hasAttribute( ) - 속성이 있으면 값이 없어도 true를 반환
+  - insertAdjacentHTML( )
+  - insertAdjacentElement()
+  - insertAdjacentText()
+  - insertAdjacentHTML( )
+
+    ```javascript
+      element.insertAdjacentHTML(position, text);
+
+      position은 아래 있는 단어만 사용 가능하다.
+      'beforebegin'
+      element 앞에 
+      'afterbegin'
+      element 안에 가장 첫번째 child
+      'beforeend'
+      element 안에 가장 마지막 child
+      'afterend'
+      element 뒤에
+
+      <!-- beforebegin -->
+      <p>
+      <!-- afterbegin -->
+      foo
+      <!-- beforeend -->
+      </p>
+      <!-- afterend -->
+    ```
+
+  - insertAdjacentElement()
+    ```javascript
+    targetElement.insertAdjacentElement(position, element);
+    beforeBtn.addEventListener('click', function() {
+      var tempDiv = document.createElement('div');
+      tempDiv.style.backgroundColor = randomColor();
+      if (activeElem) {
+        activeElem.insertAdjacentElement('beforebegin',tempDiv);
+      }
+      setListener(tempDiv);
+    });
+    afterBtn.addEventListener('click', function() {
+      var tempDiv = document.createElement('div');
+      tempDiv.style.backgroundColor = randomColor();
+      if (activeElem) {
+        activeElem.insertAdjacentElement('afterend',tempDiv);
+      }
+      setListener(tempDiv);
+    });
+    ```
+
+  - insertAdjacentText() 
+    ```javascript
+    element.insertAdjacentText(position, text);
+
+    beforeBtn.addEventListener('click', function() {
+      para.insertAdjacentText('afterbegin',textInput.value);
+    });
+
+    afterBtn.addEventListener('click', function() {
+      para.insertAdjacentText('beforeend',textInput.value);
+    });
+    ```
+</details>
+<details open>
+<summary>4일차 학습</summary>
+<div markdown="1">
+
+  #### [HTML 요소 스타일 속성 / 메서드]
+  #### element.style
+  ```javascript
+  // Set multiple styles in a single statement
+  elt.style.cssText = "color: blue; border: 1px solid black"; 
+  // Or
+  elt.setAttribute("style", "color:red; border: 1px solid blue;");
+
+  // Set specific style while leaving other inline style values untouched
+  elt.style.color = "blue";
+  ```
+
+- Window.getComputedStyle() 
+  - 요소의 모든 CSS 프로퍼티값을 얻기 위한 방법
+  - 전역함수
+  - 인자로 전달받은 요소의 모든 CSS 속성값을 담은 객체를 회신
+
+  ```javascript
+  var style = window.getComputedStyle(element[, pseudoElt]);
+  <style>
+  h3::after {
+    content: ' rocks!';
+  }
+  </style>
+  <h3>generated content</h3> 
+  <script>
+    var h3       = document.querySelector('h3');
+    var result   = getComputedStyle(h3, ':after').content;
+
+    console.log('the generated content is: ', result); // returns ' rocks!'
+  </script>
+
+  window.getComputedStyle($0)['font-size']
+  "18px"
+  window.getComputedStyle($0).fontSize
+  "18px"
+  window.parseInt(window.getComputedStyle($0).fontSize, 10)
+  18
+  window.parseInt(window.getComputedStyle($0).fontSize, 10) + 2
+  20
+  window.parseInt(window.getComputedStyle($0).fontSize, 10) + 2 + 'px'
+  "20px"
+  $0.style.fontSize = window.parseInt(window.getComputedStyle($0).fontSize, 10) + 2 + 'px'
+  "20px"
+  ```
+  #### CSS 객체 모델
+  - CSSOM(CSS Object Model)
+  - CSSOM View Module 사양의 대부분 속성은 라이브 상태로, 접근 시마다 매번 계산되며, 읽기 전용 속성이다. (scrollLeft, scrollTop은 제외)
+      
+  - 요소의 크기(Dimensions) : width, height
+    - clientWidth, clientHeight : 너비/높이(width/height) + 패딩(padding)
+    -   offsetWidth, offsetHeight : 너비/높이(width/height) + 패딩(padding) + 보더(border) + 스크롤바
+    - scrollWidth, scrollHeight : 스크롤 가능한 너비/높이 영역
+
+    <img src="images/image.png">
+</details>
+<details open>
+<summary>5일차 학습</summary>
+<div markdown="1">
+
+  #### [ES6] Module
+- import : 외부 모듈이나 다른 스크립트 등으로부터 export된 기능을 가져오는데 사용
+- export : 지정된 파일(또는 모듈)에서 함수 또는 오브젝트, 원시 타입들을 export 하는데 사용
